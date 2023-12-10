@@ -27,7 +27,6 @@ else
     echo "Failed to download input. Please check your session cookie and try again."
     exit 1
 fi
-echo "const input = require('fs').readFileSync('input', 'utf-8').split('\n')" > "${FOLDER}/s.js"
+echo "const input = require('fs').readFileSync('./${FOLDER}/input', 'utf-8').split('\n')" > "${FOLDER}/s.js"
 echo "input.pop()" >> "${FOLDER}/s.js"
-cd "${FOLDER}" || exit
 nvim s.js
