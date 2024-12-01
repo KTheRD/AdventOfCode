@@ -1,11 +1,12 @@
-#!/bin/bash
-# Add SESSION_COOKIE to .env file
+#!/bin/sh
+
 if [ -f .env ]; then
-    source .env
+    . ./.env
 else
     echo "Error: .env file not found."
     exit 1
 fi
+
 if [ "$#" -eq 0 ]; then
     CURRENT_YEAR=$(TZ="America/New_York" date +%Y)
     CURRENT_DAY=$(TZ="America/New_York" date +%-d)
@@ -17,16 +18,25 @@ else
     CURRENT_YEAR="$1"
     CURRENT_DAY="$2"
 fi
+
 FOLDER="${CURRENT_YEAR}/${CURRENT_DAY}"
 mkdir -p "${FOLDER}"
+cd "$FOLDER" || {
+    echo "Error: Failed to change directory."
+    exit 1
+}
+
 URL="https://adventofcode.com/${CURRENT_YEAR}/day/${CURRENT_DAY}/input"
-curl -b "session=${SESSION_COOKIE}" "${URL}" -o "${FOLDER}/input"
-if [ $? -eq 0 ]; then
+if curl -b "session=${SESSION_COOKIE}" "${URL}" -o "input"; then
     echo "Input downloaded successfully."
 else
     echo "Failed to download input. Please check your session cookie and try again."
     exit 1
 fi
-echo "const input = require('fs').readFileSync('./${FOLDER}/input', 'utf-8').split('\n')" > "${FOLDER}/s.js"
-echo "input.pop()" >> "${FOLDER}/s.js"
-nvim s.js
+
+cat <<EOL >"s.js"
+const input = require('fs').readFileSync('./input', 'utf-8').split('\\n')
+input.pop()
+EOL
+
+nv s.js
