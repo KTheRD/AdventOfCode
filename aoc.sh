@@ -35,8 +35,7 @@ else
 fi
 
 cat <<EOL >"s.js"
-const input = require('fs').readFileSync('./input', 'utf-8').split('\\n')
-input.pop()
+const input = require('fs').readFileSync('./input', 'utf-8').trim().split('\\n')
 EOL
 
 nv s.js
