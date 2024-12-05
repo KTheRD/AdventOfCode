@@ -1,5 +1,5 @@
 const input = require("fs")
-  .readFileSync("./input", "utf-8")
+  .readFileSync("./bigboy.txt", "utf-8")
   .trim()
   .split("\n")
   .map((l) => l.split(""));
@@ -68,12 +68,10 @@ function searchXmas(i, j) {
 console.log(
   input.reduce(
     (acc, line, i) =>
-      line.reduce((acc, c, j) => {
-        if (c === "X") {
-          return acc + searchXmas(i, j);
-        }
-        return acc;
-      }, 0) + acc,
+      line.reduce(
+        (acc, c, j) => (c === "X" ? acc + searchXmas(i, j) : acc),
+        0,
+      ) + acc,
     0,
   ),
 );
@@ -117,12 +115,10 @@ function searchCrossMas(i, j) {
 console.log(
   input.reduce(
     (acc, line, i) =>
-      line.reduce((acc, c, j) => {
-        if (c === "A") {
-          return acc + searchCrossMas(i, j);
-        }
-        return acc;
-      }, 0) + acc,
+      line.reduce(
+        (acc, c, j) => (c === "A" ? acc + searchCrossMas(i, j) : acc),
+        0,
+      ) + acc,
     0,
   ),
 );
