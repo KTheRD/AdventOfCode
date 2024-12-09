@@ -1,5 +1,4 @@
 const input = require("fs").readFileSync("./input", "utf-8").trim().split("");
-// const input = "2333133121414131402".split("");
 
 const disk = [];
 let id = 0;
