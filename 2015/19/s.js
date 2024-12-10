@@ -16,12 +16,18 @@ console.log(molecules.size);
 
 let steps = 0;
 let moleculeCopy = molecule;
+const MAX_STEPS = 100000;
+let i = 0;
 while (moleculeCopy !== "e") {
+  if (i++ > MAX_STEPS) {
+    i = 0;
+    moleculeCopy = molecule;
+    steps = 0;
+  }
   const randomRule = rules[Math.floor(Math.random() * rules.length)];
   if (moleculeCopy.includes(randomRule[1])) {
     moleculeCopy = moleculeCopy.replace(randomRule[1], randomRule[0]);
     steps++;
-    console.log(moleculeCopy);
   }
 }
 console.log(steps);
