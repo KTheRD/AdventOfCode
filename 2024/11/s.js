@@ -15,22 +15,22 @@ const step = (n) => {
 };
 
 const dict = new Map();
-const lengthAfterNSteps = (input, n) =>
+const getLength = (input, n) =>
   n === 0
     ? input.length
-    : input.reduce((acc, curr) => {
-      if (dict.has(curr) && dict.get(curr)[n]) {
-        return acc + dict.get(curr)[n];
-      }
-      const stepResult = step(curr);
-      const count = lengthAfterNSteps(stepResult, n - 1);
-      if (dict.has(curr)) {
-        dict.get(curr)[n] = count;
-      } else {
-        dict.set(curr, { [n]: count });
-      }
-      return acc + count;
-    }, 0);
+    : input.reduce((acc, cur) => {
+        if (dict.has(cur) && dict.get(cur).has(n)) {
+          return acc + dict.get(cur).get(n);
+        }
+        const stepResult = step(cur);
+        const length = getLength(stepResult, n - 1);
+        if (dict.has(cur)) {
+          dict.get(cur).set(n, length);
+        } else {
+          dict.set(cur, new Map([[n, length]]));
+        }
+        return acc + length;
+      }, 0);
 
-console.log(lengthAfterNSteps(input, 25));
-console.log(lengthAfterNSteps(input, 75));
+console.log(getLength(input, 25));
+console.log(getLength(input, 75));
