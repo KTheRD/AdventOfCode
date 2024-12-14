@@ -1,0 +1,9 @@
+{
+  "name": "aoc",
+  "version": "1.0.0",
+  "author": "KTheRD",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^3.0.0-rc3"
+  }
+}

@@ -1,4 +1,5 @@
 .env
 input
-output
+output*
 bigboy.txt
+node_modules

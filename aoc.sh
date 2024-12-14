@@ -34,8 +34,9 @@ else
     exit 1
 fi
 
-cat <<EOL >"s.js"
-const input = require('fs').readFileSync('./input', 'utf-8').trim().split('\\n')
+cat <<EOL >"s.mjs"
+import {readFileSync} from 'fs'
+const input = readFileSync('./input', 'utf-8').trim().split('\\n')
 EOL
 
-nv s.js
+nv s.mjs
