@@ -1,4 +1,6 @@
-const input = require("fs").readFileSync("./input", "utf-8").trim().split("\n");
+import { readFileSync } from "fs";
+
+const input = readFileSync("./input", "utf-8").trim().split("\n");
 
 const { left, right } = input
   .map((l) => l.split("   ").map((n) => parseInt(n)))

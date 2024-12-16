@@ -34,10 +34,10 @@ else
     exit 1
 fi
 
-cat <<EOL >"s.mjs"
-import { readFileSync } from "fs";
+cat <<EOL >"s.js"
+import { readFileSync } from "node:fs";
 
-const input = readFileSync("./input", "utf-8").trim();
+const input = readFileSync("./input", "utf-8").trim().split("\n");
 
 function parseInput(input) {
   return input.split("\n").map((line) => line.split(""));
