@@ -2,4 +2,5 @@
 input
 output*
 bigboy.txt
-node_modules
+node_modules/
+target/
