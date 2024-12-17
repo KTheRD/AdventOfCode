@@ -1,16 +1,8 @@
 import { readFileSync } from "fs";
 
 const input = readFileSync("./input", "utf-8").trim();
-// const input = `Register A: 2024
-// Register B: 0
-// Register C: 0
-//
-// Program: 0,3,5,4,3,0
-// `.trim();
 
-/**
- * @param {string } input
- */
+/** @param {string } input */
 function parseInput(input) {
   const [registersStr, instructionsStr] = input.split("\n\n");
   const [A, B, C] = registersStr.match(/\d+/g);
@@ -143,9 +135,6 @@ function getOuput({ A, B, C, instructions }) {
   return result;
 }
 
-/**
- * @param {{ A: any; B: any; C: any; instructions: any[]; }} input
- */
 function part2({ B, C, instructions }) {
   instructions = instructions.map(BigInt);
   let possibleA = [0n];
@@ -155,7 +144,6 @@ function part2({ B, C, instructions }) {
       for (let rem = 0n; rem < 8n; rem++) {
         const result = getOuput({ A: A * 8n + rem, B, C, instructions });
         if (result[0] === instructions[i]) {
-          console.log(A * 8n + rem, result);
           newPossibleA.push(A * 8n + rem);
         }
       }
