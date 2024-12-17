@@ -1,0 +1,58 @@
+#!/bin/sh
+
+if [ -f .env ]; then
+    . ./.env
+else
+    echo "Error: .env file not found."
+    exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+    CURRENT_YEAR=$(TZ="America/New_York" date +%Y)
+    CURRENT_DAY=$(TZ="America/New_York" date +%-d)
+    if [ "$(TZ="America/New_York" date +%m)" -ne 12 ] || [ "${CURRENT_DAY}" -lt 1 ] || [ "${CURRENT_DAY}" -gt 25 ]; then
+        echo "Advent of Code has not started or the current day is not valid."
+        exit 1
+    fi
+else
+    CURRENT_YEAR="$1"
+    CURRENT_DAY="$2"
+fi
+
+FOLDER="${CURRENT_YEAR}/${CURRENT_DAY}"
+mkdir -p "${FOLDER}"
+cd "$FOLDER" || {
+    echo "Error: Failed to change directory."
+    exit 1
+}
+
+URL="https://adventofcode.com/${CURRENT_YEAR}/day/${CURRENT_DAY}/input"
+if curl -b "session=${SESSION_COOKIE}" "${URL}" -o "input"; then
+    echo "Input downloaded successfully."
+else
+    echo "Failed to download input. Please check your session cookie and try again."
+    exit 1
+fi
+
+cat <<EOL >"s.js"
+import { readFileSync } from "fs";
+
+const input = readFileSync("./input", "utf-8").trim().split("\n");
+
+function parseInput(input) {
+  return input.split("\n").map((line) => line.split(""));
+}
+
+function part1(input) {
+    
+}
+
+function part2(input) {
+    
+}
+
+console.log(part1(parseInput(input)));
+console.log(part2(parseInput(input)));
+EOL
+
+nv s.mjs
