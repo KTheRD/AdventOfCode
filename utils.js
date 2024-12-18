@@ -24,9 +24,7 @@ export const dirsN = {
   west: { x: -1, y: 0 },
   "north-west": { x: -1, y: -1 },
 };
-/**
- * @param {any[][]} matrix
- */
+/** @param {any[][]} matrix */
 export function printMatrix(matrix) {
   console.log(matrix.map((row) => row.join("")).join("\n"));
 }
@@ -34,23 +32,14 @@ export function printMatrix(matrix) {
  * @template T
  * @param {number} rows
  * @param {number} cols
- * @param {T} value
+ * @param {T | ((i: number, j: number) => T)} value
  * @returns {T[][]}
  */
 export function getMatrix(rows, cols, value) {
-  return Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () => value),
-  );
-}
-/**
- * @template T
- * @param {number} rows
- * @param {number} cols
- * @param {(i:number, j:number) => T} value
- * @returns {T[][]}
- */
-export function createMatrix(rows, cols, value) {
-  return Array.from({ length: rows }, (_, i) =>
-    Array.from({ length: cols }, (_, j) => value(i, j)),
-  );
+  if (value instanceof Function) {
+    return Array.from({ length: rows }, (_, i) =>
+      Array.from({ length: cols }, (_, j) => value(i, j)),
+    );
+  }
+  return Array.from({ length: rows }, () => Array(cols).fill(value));
 }
