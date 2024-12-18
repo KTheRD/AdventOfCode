@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { createMatrix } from "../../utils.js";
+import { getMatrix } from "../../utils.js";
 
 const input = readFileSync("./input", "utf-8").trim();
 
@@ -10,7 +10,7 @@ function parseInput(input) {
 
 /** @param {number[][]} input */
 function part1(input) {
-  const map = createMatrix(71, 71, 0);
+  const map = getMatrix(71, 71, 0);
   for (let i = 0; i < 1024; i++) {
     const [x, y] = input[i];
     map[y][x] = -1;
@@ -38,7 +38,7 @@ function part1(input) {
 
 /** @param {number[][]} input */
 function part2(input) {
-  const map = createMatrix(71, 71, 0);
+  const map = getMatrix(71, 71, 0);
   outer: for (let i = 0; i < input.length; i++) {
     const [x, y] = input[i];
     map[y][x] = -1;
