@@ -43,3 +43,11 @@ export function getMatrix(rows, cols, value) {
   }
   return Array.from({ length: rows }, () => Array(cols).fill(value));
 }
+/**
+ * @template T
+ * @param {T} value
+ */
+export function dbg(value) {
+  console.log(value);
+  return value;
+}
