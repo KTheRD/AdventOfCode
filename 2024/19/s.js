@@ -11,13 +11,10 @@ function parseInput(input) {
   };
 }
 
-const isPatternPossibleMemo = new Map();
+const isPatternPossibleMemo = new Map([["", true]]);
 /** @param {string[]} towels @param {string} pattern */
-const isPatternPossible = (towels, pattern) => {
-  if (pattern === "") {
-    return true;
-  }
-  return towels.reduce((acc, towel) => {
+const isPatternPossible = (towels, pattern) =>
+  towels.reduce((acc, towel) => {
     if (pattern.startsWith(towel)) {
       const slice = pattern.slice(towel.length);
       if (!isPatternPossibleMemo.has(slice)) {
@@ -27,20 +24,14 @@ const isPatternPossible = (towels, pattern) => {
     }
     return acc;
   }, false);
-};
 /** @param {ReturnType<typeof parseInput>} input */
-function part1({ towels, patterns }) {
-  return patterns.filter((pattern) => isPatternPossible(towels, pattern))
-    .length;
-}
+const part1 = ({ towels, patterns }) =>
+  patterns.filter((pattern) => isPatternPossible(towels, pattern)).length;
 
-const getPossibleTowelsMemo = new Map();
+const getPossibleTowelsMemo = new Map([["", 1]]);
 /** @param {string[]} towels @param {string} pattern */
-const getPossibleTowels = (towels, pattern) => {
-  if (pattern === "") {
-    return 1;
-  }
-  return towels.reduce((acc, towel) => {
+const getPossibleTowels = (towels, pattern) =>
+  towels.reduce((acc, towel) => {
     if (pattern.startsWith(towel)) {
       const slice = pattern.slice(towel.length);
       if (!getPossibleTowelsMemo.has(slice)) {
@@ -50,14 +41,12 @@ const getPossibleTowels = (towels, pattern) => {
     }
     return acc;
   }, 0);
-};
 /** @param {ReturnType<typeof parseInput>} input */
-function part2({ towels, patterns }) {
-  return patterns.reduce(
+const part2 = ({ towels, patterns }) =>
+  patterns.reduce(
     (acc, pattern) => acc + getPossibleTowels(towels, pattern),
     0,
   );
-}
 
 console.log(part1(parseInput(input)));
 console.log(part2(parseInput(input)));
