@@ -14,16 +14,16 @@ function parseInput(input) {
 const isPatternPossibleMemo = new Map([["", true]]);
 /** @param {string[]} towels @param {string} pattern */
 const isPatternPossible = (towels, pattern) =>
-  towels.reduce((acc, towel) => {
+  towels.some((towel) => {
     if (pattern.startsWith(towel)) {
       const slice = pattern.slice(towel.length);
       if (!isPatternPossibleMemo.has(slice)) {
         isPatternPossibleMemo.set(slice, isPatternPossible(towels, slice));
       }
-      return acc || isPatternPossibleMemo.get(slice);
+      return isPatternPossibleMemo.get(slice);
     }
-    return acc;
-  }, false);
+    return false;
+  });
 /** @param {ReturnType<typeof parseInput>} input */
 const part1 = ({ towels, patterns }) =>
   patterns.filter((pattern) => isPatternPossible(towels, pattern)).length;
