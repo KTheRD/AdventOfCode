@@ -8,7 +8,7 @@ function parseInput(input) {
   const connectionsMap = new Map();
   input
     .split("\n")
-    .map((line) => /** @type {[string, string]} */(line.split("-")))
+    .map((line) => /** @type {[string, string]} */ (line.split("-")))
     .forEach(([from, to]) => {
       if (!connectionsMap.has(from)) {
         connectionsMap.set(from, new Set());
@@ -72,7 +72,7 @@ function part2(input) {
     const clique = maxClique(new Set([computer]), new Set(input.get(computer)));
     if (clique.size > max.size) max = clique;
   });
-  return max.size;
+  return [...max].sort().join(",");
 }
 
 console.time();
