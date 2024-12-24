@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-const input = readFileSync("./input", "utf-8").trim();
+const input = readFileSync("./bigboy", "utf-8").trim();
 
 /** @param {string} input */
 function parseInput(input) {
@@ -8,7 +8,7 @@ function parseInput(input) {
   const connectionsMap = new Map();
   input
     .split("\n")
-    .map((line) => /** @type {[string, string]} */ (line.split("-")))
+    .map((line) => /** @type {[string, string]} */(line.split("-")))
     .forEach(([from, to]) => {
       if (!connectionsMap.has(from)) {
         connectionsMap.set(from, new Set());
@@ -28,48 +28,56 @@ function part1(input) {
   const visited = new Set();
   input.forEach((tos, from) => {
     if (!from.startsWith("t")) return;
-    tos.forEach((to1) =>
+    tos.forEach((to1) => {
       tos.forEach((to2) => {
         if (to1 === to2) return;
         if (!input.get(to1).has(to2)) return;
         visited.add([from, to1, to2].sort().join("-"));
-      }),
-    );
+      });
+      input.get(from).delete(to1);
+    });
   });
   return visited.size;
 }
 
 /** @param {ReturnType<typeof parseInput>} input */
 function part2(input) {
-  /** @type {Map<string, string[]>} */
-  const memo = new Map();
   /**
-   * @param {string[]} clique
-   * @param {string[]} possible
+   * @param {Set<string>} clique
+   * @param {Set<string>} possible
    */
   const maxClique = (clique, possible) => {
-    if (memo.has(clique.join(","))) return memo.get(clique.join(","));
-    if (possible.length === 0) return clique;
+    if (possible.size === 0) return clique;
     let max = clique;
-    possible.forEach((computer) => {
+    for (const computer of possible) {
+      const newClique = new Set(clique);
+      newClique.add(computer);
       const newMax = maxClique(
-        [...clique, computer].sort(),
-        possible.filter((p) => input.get(computer).has(p)),
+        newClique,
+        possible.intersection(input.get(computer)),
       );
-      if (newMax.length > max.length) max = newMax;
-    });
-    memo.set(clique.join(","), max);
+      possible.delete(computer);
+      input.set(computer, input.get(computer).difference(newClique));
+      for (const c of newClique) {
+        input.get(c).delete(computer);
+      }
+      if (newMax.size > max.size) max = newMax;
+    }
     return max;
   };
 
-  /** @type {string[]} */
-  let max = [];
+  /** @type {Set<string>} */
+  let max = new Set();
   input.keys().forEach((computer) => {
-    const clique = maxClique([computer], [...input.get(computer)].sort());
-    if (clique.length > max.length) max = clique;
+    const clique = maxClique(new Set([computer]), new Set(input.get(computer)));
+    if (clique.size > max.size) max = clique;
   });
-  return max.join(",");
+  return max.size;
 }
 
+console.time();
 console.log(part1(parseInput(input)));
+console.timeEnd();
+console.time();
 console.log(part2(parseInput(input)));
+console.timeEnd();

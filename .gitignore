@@ -1,6 +1,6 @@
 .env
 input
 output*
-bigboy.txt
+bigboy*
 node_modules/
 target/
