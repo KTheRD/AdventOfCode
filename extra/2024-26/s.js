@@ -53,6 +53,8 @@ const getNeighbours = ({ inner, outer }, x, y, isOuter, isLeft) => {
 };
 
 /** @param {ReturnType<typeof parseInput>} input */
-function solve({ outer, inner }) {}
+function solve({ outer, inner }) {
+
+}
 
 console.log(solve(parseInput(input)));
