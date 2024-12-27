@@ -44,7 +44,7 @@ const getNeighbours = ({ inner, outer }, x, y, isOuter, isLeft) => {
       neighbours.push({ x, y: y + 1, isOuter, isLeft });
     }
   }
-  
+
   if (isLeft) {
     if (x > 0) {
       neighbours.push({ x: x - 1, y, isOuter, isLeft: false });
@@ -53,8 +53,6 @@ const getNeighbours = ({ inner, outer }, x, y, isOuter, isLeft) => {
 };
 
 /** @param {ReturnType<typeof parseInput>} input */
-function solve({ outer, inner }) {
-
-}
+function solve({ outer, inner }) { }
 
 console.log(solve(parseInput(input)));
